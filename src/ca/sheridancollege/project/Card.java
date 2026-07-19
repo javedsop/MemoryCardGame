@@ -10,9 +10,12 @@ package ca.sheridancollege.project;
  * game. Students wishing to add to the code should remember to add themselves as a modifier.
  *
  * @author dancye
+ * @modifer Sophia Javed, 2026
  */
 public abstract class Card {
     //default modifier for child classes
+    
+    
 
     /**
      * Students should implement this method for their specific children classes
@@ -21,5 +24,7 @@ public abstract class Card {
      */
     @Override
     public abstract String toString();
+    
+
 
 }

@@ -14,10 +14,11 @@ import java.util.Collections;
  *
  * @author dancye
  * @author Paul Bonenfant Jan 2020
+ * @modifer Sophia Javed July 2026
  */
 public class GroupOfCards {
 
-    //The group of cards, stored in an ArrayList
+    // The group of cards, stored in an ArrayList
     private ArrayList<Card> cards;
     private int size;//the size of the grouping
 
