@@ -6,22 +6,18 @@
 package ca.sheridancollege.project;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- *
+ * @author Deepinder Kaur, 2026
  * @author Sophia Javed, 2026
  */
 public class MemoryPlayer extends Player {
-    private int score;
-    private List<Card> matchedCards; // pair of cards - gives player a point
-    private boolean turn; // turn of player
+    private int score = 0;
+    private ArrayList<Card> matchedCards; // pair of cards - gives player a point
     
-    public MemoryPlayer(String name, int score, List<Card> matchedCards, boolean turn) {
+    public MemoryPlayer(String name) {
         super(name);
-        this.score = score;
-        this.matchedCards = matchedCards;
-        this.turn = turn;
+        matchedCards = new ArrayList<>();
     }
 
     public int getScore() {
@@ -31,31 +27,30 @@ public class MemoryPlayer extends Player {
     public void setScore(int score) {
         this.score = score;
     }
+    
+    // adds 1 to the score when player finds a pair
+    public void increaseScore() {
+        score++;
+    }
 
-    public List<Card> getMatchedCards() {
+    public ArrayList<Card> getMatchedCards() {
         return matchedCards;
     }
 
-    public void setMatchedCards(List<Card> matchedCards) {
+    public void setMatchedCards(ArrayList<Card> matchedCards) {
         this.matchedCards = matchedCards;
     }
-
-    public boolean isTurn() {
-        return turn;
-    }
-
-    public void setTurn(boolean turn) {
-        this.turn = turn;
-    }
     
-    
-    @Override
-    public void play(ArrayList<Player> players) {
-        
+    // puts the two matched cards into this players pile
+    public void addMatchedCards(Card firstCard, Card secondCard) {
+        matchedCards.add(firstCard);
+        matchedCards.add(secondCard);
     }
     
     @Override
-    public int score() {
-        return this.score;
+    public void play() {
+        System.out.println();
+        System.out.println("Turn: " + getName());
     }
+    
 }

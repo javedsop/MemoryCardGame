@@ -14,7 +14,8 @@ import java.util.Collections;
  *
  * @author dancye
  * @author Paul Bonenfant Jan 2020
- * @modifer Sophia Javed July 2026
+ * @modifer Sophia Javed, 2026
+ * @modifier Deepinder Kaur, 2026
  */
 public class GroupOfCards {
 
@@ -24,6 +25,7 @@ public class GroupOfCards {
 
     public GroupOfCards(int size) {
         this.size = size;
+        cards = new ArrayList<>();
     }
 
     /**
@@ -52,5 +54,31 @@ public class GroupOfCards {
     public void setSize(int size) {
         this.size = size;
     }
+    
+    // Add card to GroupOfCards
+    public void addCard(Card card) {
+        if (cards.size() < size) {
+            cards.add(card);
+        }
+    }
 
-}//end class
+    public Card getCard(int i) {
+        return cards.get(i);
+    }
+
+    public void removeCard(int i) {
+        cards.set(i, null);
+    }
+
+    public boolean allMatched() {
+        for (Card card : cards) {
+            // If card is not null then return false
+            if (card != null) {
+                return false;
+            }
+        }
+        // otherwise return true
+        return true;
+    }
+
+} //end class

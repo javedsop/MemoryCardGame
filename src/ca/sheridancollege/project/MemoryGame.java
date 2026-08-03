@@ -8,24 +8,21 @@ package ca.sheridancollege.project;
 import java.util.ArrayList;
 
 /**
- *
+ * @author Deepinder Kaur, 2026
  * @author Sophia Javed, 2026
  */
 public class MemoryGame extends Game {
-    private GroupOfCards groupOfCards; 
-    private boolean flipped; // which card has been flipped
-    private ArrayList<MemoryPlayer> memoryPlayers;
-        
-        // deals with making the actual game - not starting the game. starting
-        // the game is dealt by the abstract play() method.
-        
-        // constructor inheriting superclass fields/properties
-        // can make a different constructor if needed
-    public MemoryGame(String name, ArrayList<Player> players, GroupOfCards groupOfCards, boolean flipped, ArrayList<MemoryPlayer> memoryPlayers) {
-        super(name, players);
-        this.groupOfCards = groupOfCards;
-        this.flipped = flipped;
-        this.memoryPlayers = memoryPlayers;
+    private static final int NUMBER_OF_CARDS = 10;
+    private GroupOfCards groupOfCards;
+    private Board board;
+    private ScoreBoard scoreBoard;
+    private int currentPlayer = 0;
+
+    public MemoryGame(String name, ArrayList<Player> players) {
+        super(name);
+        setPlayers(players);
+        board = new Board();
+        scoreBoard = new ScoreBoard();
     }
 
     public GroupOfCards getGroupOfCards() {
@@ -36,38 +33,100 @@ public class MemoryGame extends Game {
         this.groupOfCards = groupOfCards;
     }
 
-    public boolean isFlipped() {
-        return flipped;
+    public Board getBoard() {
+        return board;
     }
 
-    public void setFlipped(boolean flipped) {
-        this.flipped = flipped;
+    public void setBoard(Board board) {
+        this.board = board;
     }
 
-    public ArrayList<MemoryPlayer> getMemoryPlayers() {
-        return memoryPlayers;
+    public ScoreBoard getScoreBoard() {
+        return scoreBoard;
     }
 
-    public void setMemoryPlayers(ArrayList<MemoryPlayer> memoryPlayers) {
-        this.memoryPlayers = memoryPlayers;
+    public void setScoreBoard(ScoreBoard scoreBoard) {
+        this.scoreBoard = scoreBoard;
     }
+    
+    public void setUpBoard() {
+        groupOfCards = new GroupOfCards(NUMBER_OF_CARDS);
+        for (Fruit fruit : Fruit.values()) {
+            groupOfCards.addCard(new MemoryCard(fruit));
+            groupOfCards.addCard(new MemoryCard(fruit));
+        }
         
+        groupOfCards.shuffle();
+        // display the current scores of the players
+        scoreBoard.display(getPlayers());
+        
+        board.displayCards(groupOfCards);
+
+    }
+    
+
     @Override
-    public String getName() {
-        return "Memory";
-    }
+    public void play(int card1, int card2) {
+            System.out.println();
+            MemoryPlayer player = (MemoryPlayer) getPlayers().get(currentPlayer);
+            System.out.println("It is " + player.getName() + "'s turn.");
+            
+            Card firstCard = groupOfCards.getCard(card1 - 1);
+            System.out.println("The 1st card you picked up was: " + firstCard);
+
+            Card secondCard = groupOfCards.getCard(card2 - 1);
+            System.out.println("The 2nd card you picked up was: " + secondCard);
+
+            if (firstCard.getFruit() == secondCard.getFruit()) {
+                System.out.println("Congratulations, the cards were a match!");
+                groupOfCards.removeCard(card1 - 1);
+                groupOfCards.removeCard(card2 - 1);
+
+                player.increaseScore();
+                player.addMatchedCards(firstCard, secondCard);
+                System.out.println(player.getName() + " gets 1 point.");
+                /* If all the cards are NOT MATCHED (meaning the game is still going on),
+                   then display "playerName gets to go again". Because if the game has stopped
+                   we don't want to print that the player goes again.
+                */
+                if (groupOfCards.allMatched() == false) {
+                    System.out.println(player.getName() + " gets to go again!");
+                }
+            } else {
+                System.out.println(  "Sorry, the cards were not a match.");
+                currentPlayer = (currentPlayer + 1) % getPlayers().size();
+            }
+            
+        /* If all the cards are NOT MATCHED (meaning the game is still going on),
+           then display the player scores and cards but if all cards ARE MATCHED, then it 
+           will stop displaying player scores and the cards!
+        */
         
+        if (groupOfCards.allMatched() == false) {
+            board.displayCards(groupOfCards);
+            scoreBoard.display(getPlayers());
+        }
         
-    @Override
-    // in main method, Scanner will take in numPlayers and an arrayList of Players
-    public void play(int numPlayers, ArrayList<Player> players) {
-        
-        for (int i = 0; i < numPlayers; i++) {
-            setPlayers(players); // set the players of the game
+        if (groupOfCards.allMatched()) {
+            declareWinner(getPlayers());
         }
     }
-        
+
     @Override
-    public void declareWinner() {
+    public void declareWinner(ArrayList<Player> players) {
+        int highestScore = -1;
+        for (Player player : players) {
+            // convert the Player into a MemoryPlayer
+            MemoryPlayer memoryPlayer = (MemoryPlayer) player;
+            if (memoryPlayer.getScore() > highestScore) {
+                highestScore = memoryPlayer.getScore();
+                System.out.println();
+                System.out.println();
+                System.out.println("And the winner is... ");
+                System.out.println();
+                System.out.println(memoryPlayer.getName() + "!");
+                System.out.println(memoryPlayer.getName()+ " finished with " + highestScore + " points!");
+            }
+        }
     }
 }

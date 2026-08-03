@@ -11,12 +11,22 @@ package ca.sheridancollege.project;
  *
  * @author dancye
  * @modifer Sophia Javed, 2026
+ * @modifier Deepinder Kaur, 2026
  */
 public abstract class Card {
     //default modifier for child classes
-    
-    
+    private Fruit fruit;
 
+    public Card(Fruit fruit) {
+        this.fruit = fruit;
+    }
+    public Fruit getFruit() {
+        return fruit;
+    }
+    public void setFruit(Fruit fruit) {
+        this.fruit = fruit;
+    }   
+    
     /**
      * Students should implement this method for their specific children classes
      *

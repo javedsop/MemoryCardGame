@@ -13,15 +13,15 @@ import java.util.ArrayList;
  *
  * @author dancye
  * @author Paul Bonenfant Jan 2020
- * @author Sophia Javed July 2026
+ * @modifier Sophia Javed, 2026
+ * @modifier Deepinder Kaur, 2026
  */
 public abstract class Game {
 
     private final String name;//the title of the game
     private ArrayList<Player> players;// the players of the game
 
-    // added ArrayList<Player> players to constructor's parameter list
-    public Game(String name, ArrayList<Player> players) {
+    public Game(String name) {
         this.name = name;
         players = new ArrayList();
     }
@@ -48,49 +48,15 @@ public abstract class Game {
     }
 
     /**
-     * Play the game.This might be one method or many method calls depending on your game.
-     * @param numPlayers
-     * @param players
+     * Play the game. This might be one method or many method calls depending on your game.
+     * @param card1
+     * @param card2
      */
-    public abstract void play(int numPlayers, ArrayList<Player> players);
+    public abstract void play(int card1, int card2);
     
     /**
      * When the game is over, use this method to declare and display a winning player.
+     * @param players
      */
-    public abstract void declareWinner();
-    
-//    public MemoryGame extends Game {
-//        private GroupOfCards groupOfCards; 
-//        private boolean flipped; // which card has been flipped
-//        
-//        // deals with making the actual game- not starting the game
-//
-//        // loop
-        
-//        // constructor inheriting superclass fields/properties
-//        public MemoryGame(String name, Player players) {
-//            super(String name, Player players);
-//            
-//        }
-//        
-//        @Override
-//        public String getName() {
-//            return "Memory";
-//        }
-//        
-//        
-//        
-//        @Override
-//        public void play() {
-//            
-//        }
-//        
-//        @Override
-//        public void declareWinner() {
-//            // code goes here
-//        }
-//        
-//}
-//
-
+    public abstract void declareWinner(ArrayList<Player> players);
 }//end class
